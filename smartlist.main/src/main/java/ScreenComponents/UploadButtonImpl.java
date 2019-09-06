@@ -51,7 +51,7 @@ public class UploadButtonImpl extends JButton {
         }
 
         if (Screen.failCounter == 0) {
-            LOG.info("successfully imported " + rowCounter + " items");
+            LOG.info("Successfully imported " + rowCounter + " items");
         } else {
             LOG.info("Failed to import " + Screen.failCounter + " items out of " + rowCounter);
         }

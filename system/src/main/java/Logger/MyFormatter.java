@@ -35,17 +35,17 @@ public class MyFormatter extends Formatter {
         /* check content of log message */
         String[] redWords = {"failed"};
         for (String str : Arrays.asList(redWords)) {
-            if (msg.contains(str)) { return "\u001B[31m"; }
+            if (msg.toLowerCase().contains(str)) { return "\u001B[31m"; }
         }
 
         String[] yellowWords = {};
         for (String str : Arrays.asList(yellowWords)) {
-            if (msg.contains(str)) { return "\u001B[33m"; }
+            if (msg.toLowerCase().contains(str)) { return "\u001B[33m"; }
         }
 
         String[] greenWords = {"success", "succeed", "successful", "successfully", "passed"};
         for (String str : Arrays.asList(greenWords)) {
-            if (msg.contains(str)) { return "\u001B[32m"; }
+            if (msg.toLowerCase().contains(str)) { return "\u001B[32m"; }
         }
 
         return "\u001B[37m";    // white, INFO
