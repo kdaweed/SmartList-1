@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 public class Screen extends JFrame {
     static short width = 660;
     static short height = 540;
-    static long failCounter;
 
     private String user;
     private AdminUserButtonImpl adminButton;
@@ -27,7 +26,6 @@ public class Screen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setResizable(false);
-
 
         setSize(width, height);
 

@@ -1,18 +1,24 @@
 package SQL;
 
+import Logger.MyLogger;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**************************************************
  * All SQL-Queries
  **************************************************/
 public class Queries {
 
+    public static long failCounter;
     public static Statement query;
+
+    private final Logger LOG = MyLogger.getLogger(Queries.class.getName());
 
     static {
         try {
@@ -167,10 +173,13 @@ public class Queries {
     public static void insertItem(String category, String item, Double price) {
         try {
             query.executeUpdate(
-                    "insert into items (category_name, name, price) values ('" + category + "', '" + item + "'," +
-                    "'" + price + "')");
+                    "insert into items (category_name, name, price)" +
+                    "values ('" + category + "', '" + item + "'," + "'" + price + "')");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("Duplicate entry")) {
+
+                failCounter++;
+            } else { e.printStackTrace(); }
         }
     }
 

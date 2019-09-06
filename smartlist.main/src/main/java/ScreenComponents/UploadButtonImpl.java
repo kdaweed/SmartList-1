@@ -41,19 +41,19 @@ public class UploadButtonImpl extends JButton {
         long rowCounter = 0;
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
-            rowCounter++;
             Cell itemName = row.getCell(0);
             Cell itemPrice = row.getCell(1);
 
             if (!itemName.toString().equals("ITEM_NAME")) {
+                rowCounter++;
                 Queries.insertItem(category, itemName.toString(), Double.valueOf(itemPrice.toString()));
             }
         }
 
-        if (Screen.failCounter == 0) {
+        if (Queries.failCounter == 0) {
             LOG.info("Successfully imported " + rowCounter + " items");
         } else {
-            LOG.info("Failed to import " + Screen.failCounter + " items out of " + rowCounter);
+            LOG.info("Failed to import " + Queries.failCounter + " items out of " + rowCounter);
         }
     }
 }
