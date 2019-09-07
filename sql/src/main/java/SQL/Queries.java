@@ -18,7 +18,7 @@ public class Queries {
     public static long failCounter;
     public static Statement query;
 
-    private final Logger LOG = MyLogger.getLogger(Queries.class.getName());
+    private static final Logger LOG = MyLogger.getLogger(Queries.class.getName());
 
     static {
         try {
@@ -177,7 +177,7 @@ public class Queries {
                     "values ('" + category + "', '" + item + "'," + "'" + price + "')");
         } catch (SQLException e) {
             if (e.getMessage().contains("Duplicate entry")) {
-
+                LOG.info("ERROR: " + e.getMessage());
                 failCounter++;
             } else { e.printStackTrace(); }
         }
