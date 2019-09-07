@@ -2,6 +2,7 @@ package ScreenComponents;
 
 import Logger.MyLogger;
 import SQL.Queries;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -27,6 +28,8 @@ public class UploadButtonImpl extends JButton {
     }
 
     public void actionPerformed(String category) {
+        long timerStart = System.currentTimeMillis();
+
         Iterator<Row> rowIterator = null;
 
         File file = new File("smartlist.main/src/main/resources/InsertItems.xlsx");   //TODO admin user wählt file aus
@@ -37,6 +40,8 @@ public class UploadButtonImpl extends JButton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        LOG.info("start importing items from " + file.getAbsolutePath() + " to " + category);
 
         long rowCounter = 0;
         while (rowIterator.hasNext()) {
@@ -51,9 +56,11 @@ public class UploadButtonImpl extends JButton {
         }
 
         if (Queries.failCounter == 0) {
-            LOG.info("Successfully imported " + rowCounter + " items");
+
+            LOG.info("successfully imported " + rowCounter + " items; " + (System.currentTimeMillis() - timerStart));
         } else {
-            LOG.info("Failed to import " + Queries.failCounter + " items out of " + rowCounter);
+            LOG.info("failed to import " + Queries.failCounter + " items out of " + rowCounter + "; " +
+                     DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - timerStart));
         }
     }
 }

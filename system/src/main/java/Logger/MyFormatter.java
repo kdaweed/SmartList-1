@@ -12,14 +12,22 @@ public class MyFormatter extends Formatter {
     @Override
     public String format(LogRecord record) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
-        StringBuilder builder = new StringBuilder();
-        builder.append(getColor(record.getMessage(), record.getLevel().toString()));
-        builder.append("[").append(record.getLevel()).append("]");
-        builder.append("[").append(df.format(new Date(record.getMillis()))).append("]");
-        builder.append("[").append(record.getSourceClassName()).append(".");
-        builder.append(record.getSourceMethodName()).append("] - ");
 
-        builder.append(formatMessage(record));
+        StringBuilder builder = new StringBuilder();
+        String msg = record.getMessage();
+
+        builder.append(getColor(msg, record.getLevel().toString()));
+
+        if ((msg.toLowerCase().contains("error"))) {
+            builder.append("\u001B[31m");
+            builder.append("[ERROR]");
+            msg = msg.replaceFirst("ERROR: ", "");
+        } else { builder.append("[").append(record.getLevel()).append("]");}
+
+        builder.append("[").append(df.format(new Date(record.getMillis()))).append("]");    // timestamp
+        builder.append("[").append(record.getSourceClassName()).append(".");    // class path
+        builder.append(record.getSourceMethodName()).append("] - ");    // methode
+        builder.append(msg);    // message
         builder.append("\n");
         return builder.toString();
     }
