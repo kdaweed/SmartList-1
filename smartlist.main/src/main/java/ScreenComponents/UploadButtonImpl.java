@@ -17,14 +17,18 @@ import java.util.logging.Logger;
 
 public class UploadButtonImpl extends JButton {
     private final Logger LOG = MyLogger.getLogger(UploadButtonImpl.class.getName());
+    private SelectCategoryImpl selectCategory;
 
-    UploadButtonImpl(String text) {
-        setText(text);
-
-        setLocation((int) (Screen.width * 0.6), (int) (Screen.height * 0.15));
-        setSize((int) (Screen.width * 0.2), (int) (Screen.height * 0.1));
+    UploadButtonImpl(SelectCategoryImpl selectCategory) {
+        setText("UPLOAD");
 
         setVisible(true); //TODO Default sollte false sein, erst true wenn man Admin ist
+
+        addActionListener(e -> {
+            actionPerformed(selectCategory.getSelectedItem().toString());
+        });
+
+        this.selectCategory = selectCategory;
     }
 
     public void actionPerformed(String category) {
@@ -57,10 +61,16 @@ public class UploadButtonImpl extends JButton {
 
         if (Queries.failCounter == 0) {
 
-            LOG.info("successfully imported " + rowCounter + " items; " + (System.currentTimeMillis() - timerStart));
+            LOG.info("successfully imported " + rowCounter + " items; " +
+                     DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - timerStart));
         } else {
             LOG.info("failed to import " + Queries.failCounter + " items out of " + rowCounter + "; " +
                      DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - timerStart));
+            Queries.failCounter = 0;
         }
+    }
+
+    void setUploadPanelVisible(boolean value) {
+        setVisible(value);
     }
 }

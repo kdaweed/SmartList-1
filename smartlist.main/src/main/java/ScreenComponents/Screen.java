@@ -1,60 +1,80 @@
 package ScreenComponents;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 public class Screen extends JFrame {
     static short width = 660;
     static short height = 540;
 
-    private String user;
-    private AdminUserButtonImpl adminButton;
-    private UserUserButtonImpl userButton;
-
     private SelectCategoryImpl selectCategory;
 
-    private JComboBox cmbMessageList = new JComboBox(new String[]{"hi", "was", "geht"});
+    private MenuBar menuBar;
+
+    private AdminPanel adminPanel;
     private UploadButtonImpl uploadButton;
     private SelectFileButtonImpl selectFile;
 
-    public Screen(String title) {
-        setTitle(title);
+    private UserPanel userPanel;
 
-        setLayout(null);
-        setLocationRelativeTo(null);
+    private String user;
+
+
+    public Screen(String title) {
+        setDefaultLookAndFeelDecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setResizable(false);
+        setTitle(title);
 
         setSize(width, height);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        setResizable(false);
 
         initComponents();
     }
 
     private void initComponents() {
-        /* ADMIN-Button */
-
-        /* USER-Button */
-
-        /* SELECT CATEGORY-ComboBox */
         selectCategory = new SelectCategoryImpl();
-        add(selectCategory);
+        selectFile = new SelectFileButtonImpl();
+        uploadButton = new UploadButtonImpl(selectCategory);
 
-        /* SELECT FILE-Button */
-
-        /* UPLOAD-Button */
-        uploadButton = new UploadButtonImpl("UPLOAD");
-        uploadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                uploadButton.actionPerformed(selectCategory.getSelectedItem().toString());
-            }   //TODO category wird gelesen
-        });
-        add(uploadButton);
-
-        /* SELECT FILE-Button */
-
+        adminPanel = new AdminPanel(this);
+        userPanel = new UserPanel(this);
+        menuBar = new MenuBar(this);
     }
 
+
+    public SelectCategoryImpl getSelectCategory() { return selectCategory; }
+
+    public void setSelectCategory(SelectCategoryImpl selectCategory) { this.selectCategory = selectCategory; }
+
+    public AdminPanel getAdminPanel() { return adminPanel; }
+
+    public void setAdminPanel(AdminPanel adminPanel) { this.adminPanel = adminPanel; }
+
+    public UserPanel getUserPanel() { return userPanel; }
+
+    public void setUserPanel(UserPanel userPanel) { this.userPanel = userPanel; }
+
+    public void setMenuBar(MenuBar menuBar) {
+        this.menuBar = menuBar;
+    }
+
+    public UploadButtonImpl getUploadButton() {
+        return uploadButton;
+    }
+
+    public void setUploadButton(UploadButtonImpl uploadButton) {
+        this.uploadButton = uploadButton;
+    }
+
+    public SelectFileButtonImpl getSelectFile() {
+        return selectFile;
+    }
+
+    public void setSelectFile(SelectFileButtonImpl selectFile) {
+        this.selectFile = selectFile;
+    }
 }
