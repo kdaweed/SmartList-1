@@ -8,7 +8,7 @@ import java.awt.*;
 public class MenuBar {
 
     Screen screen;
-    
+
 
     MenuBar(Screen screen) {
         this.screen = screen;
